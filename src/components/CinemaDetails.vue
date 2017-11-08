@@ -6,8 +6,10 @@
             </router-link>
         </mt-header>
         <div class="cinema-info">
-            <div class="cinema-name">{{cinema.cinemaDetailModel.nm}}</div>
-            <div class="cinema-address">{{cinema.cinemaDetailModel.addr}}</div>
+            <div>
+                <p class="cinema-name">{{cinema.cinemaDetailModel.nm}}</p>
+                <p class="cinema-address">{{cinema.cinemaDetailModel.addr}}</p>
+            </div>            
             <div class="cinema-phone"><i></i></div>
         </div>
         <div class="movie-banner">  
@@ -23,26 +25,68 @@
         <div class="movie-name">
             <span class="movie-nm">{{movieName}}</span><span class="movie-sc">{{movieScore}}分</span>
         </div>
-        <div class="time-line">
+        <div class="time-line" v-if="movieInfo">
             <mt-navbar v-model="selected">
-        <mt-tab-item id="1">{{cinema.Dates[0].text}}</mt-tab-item>
-        <mt-tab-item id="2">明天</mt-tab-item>
-        </mt-navbar>  
-        <!-- tab-container -->
-        <mt-tab-container v-model="selected">
-        <mt-tab-container-item id="1">
-            111
-        </mt-tab-container-item>
-        <mt-tab-container-item id="2">
-            222
-        </mt-tab-container-item>
-        </mt-tab-container>
+                <mt-tab-item id="1">{{movieInfo.Dates[0].text}}</mt-tab-item>
+                <mt-tab-item id="2">{{movieInfo.Dates[1].text}}</mt-tab-item>
+            </mt-navbar>  
+            <!-- tab-container -->
+            <mt-tab-container v-model="selected">
+            <mt-tab-container-item id="1">
+                <div class="showtime-list">
+                    <ul>
+                        <li v-for="(item,index) in movieInfo.DateShow[movieInfo.Dates[0].slug]" :key="index">
+                            <div>
+                                <strong>{{item.tm}}</strong>
+                                <p class="movie-end">{{item.end}}结束</p>
+                            </div>
+                            <div class="movie-hall">
+                                <span>{{item.lang}}{{item.tp}}</span>
+                                <p>{{item.th}}</p>
+                            </div>
+                            <div class="movie-price">
+                                <span>元</span>
+                                <p>折扣卡首单特惠</p>
+                            </div>
+                            <div class="movie-seat">
+                                <a href="####">选座购票</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </mt-tab-container-item>
+            <mt-tab-container-item id="2">
+                 <div class="showtime-list">
+                    <ul>
+                        <li v-for="(item,index) in movieInfo.DateShow[movieInfo.Dates[1].slug]" :key="index">
+                            <div>
+                                <strong>{{item.tm}}</strong>
+                                <p class="movie-end">{{item.end}}结束</p>
+                            </div>
+                            <div class="movie-hall">
+                                <span>{{item.lang}}{{item.tp}}</span>
+                                <p>{{item.th}}</p>
+                            </div>
+                            <div class="movie-price">
+                                <span>元</span>
+                                <p>折扣卡首单特惠</p>
+                            </div>
+                            <div class="movie-seat">
+                                <a href="####">选座购票</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </mt-tab-container-item>
+            </mt-tab-container>
         </div>
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import Footer from './Footer'
 require('swiper/dist/css/swiper.css')    //注意这里
     export default {
         name: 'cinemaDetails',
@@ -84,6 +128,10 @@ require('swiper/dist/css/swiper.css')    //注意这里
                 }
             }
         },
+        components: {
+            Footer
+        }
+        ,
         computed: {
             swiper() {  
               return this.$refs.mySwiper.swiper;  
@@ -99,24 +147,37 @@ require('swiper/dist/css/swiper.css')    //注意这里
                this.cinema = res.data.data;
                this.movieName = this.cinema.movies[0].nm;
                this.movieScore = this.cinema.movies[0].sc;
-               console.log(this.cinema);                          
-               this.swiper.slideTo(0, 0, false);                
+               console.log(this.cinema); 
+               setTimeout(() => {
+                   this.$http({
+                            baseURL:'/api',
+                            url:'showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid='+this.cinema.movies[0].id,
+                            method: 'get',
+                        }).then((res) => {
+                            this.movieInfo = res.data.data;//获取电影信息                   
+                            console.log(res);
+                        }).catch((res) => {
+                            console.log('CinemaDetails.vue: ', res);
+                        });       
+               },100)                         
+               this.swiper.slideTo(0, 0, false);                    
 	        }).catch((res) => {
 	            console.log('CinemaDetails.vue: ', res);
             });
         },
         mounted: function () {
-            
-            
+          
+        },
+        methods: {
 
-              
         }
     }
 </script>
 
 <style lang="scss" scoped>
 .cinema-info{
-    position: relative;
+    display: flex;
+    justify-content: space-between;
     padding: .5rem;
     .cinema-name{
         font-size: .8rem;      
@@ -128,12 +189,6 @@ require('swiper/dist/css/swiper.css')    //注意这里
         line-height: 1rem;
     }
     .cinema-phone{
-        display: inline-block;
-        position: absolute;
-        right: .5rem;
-        top: 50%;
-        transform: translate(0,-50%);
-        border-left:1px solid #ccc; 
         i{
             display: block;
             width: 1.2rem;
@@ -175,4 +230,45 @@ require('swiper/dist/css/swiper.css')    //注意这里
     padding: 10px 0;
     font-size: 15px;
 }
+.showtime-list{
+    margin-top: 3px;
+    div{
+        p{
+            margin-top: .25rem;
+        }
+    }
+    li{
+       display: flex;
+       justify-content: space-between;
+       padding: .5rem .25rem;
+       border-bottom: 1px solid #ccc;
+    }
+    .movie-end,.movie-hall{
+        font-size: .6rem;
+    }
+    .movie-hall{
+        padding-left: 1rem;
+    }
+    .movie-price{
+        text-align: right;
+        span{
+            color: red;
+        }       
+        p{
+            font-size: .6rem;
+            color: #ccc;
+        }
+    }
+    .movie-seat{       
+        a{
+            display: block;
+            padding: .5rem;
+            border: 1px solid red;
+            border-radius: 3px;
+            font-size: .6rem;
+            color: red;
+        }
+    }   
+}
+
 </style>
