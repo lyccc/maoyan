@@ -1,6 +1,6 @@
 <template>
     <div class="movie-details-wrapper" v-if="filmData">
-        <mt-header title="电影详情">
+        <mt-header title="影片详情">
             <router-link to="/" slot="left">
                 <mt-button icon="back"></mt-button>
             </router-link>

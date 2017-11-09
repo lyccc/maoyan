@@ -1,6 +1,8 @@
 <template>
-  <div id="app">   
-    <router-view/>
+  <div id="app" v-cloak>
+   <transition :name="transitionName">       
+        <router-view class="child-view"/>
+   </transition> 
   </div>
 </template>
 
@@ -9,7 +11,7 @@ export default {
   name: 'app',
   data () {
     return {
-      
+      transitionName: 'slide-left'
     }
   },
   created: function() {
@@ -22,7 +24,16 @@ export default {
         var _html = document.getElementsByTagName('html')[0];  
         view_width>640?_html.style.fontSize=640/16 +'px':_html.style.fontSize =view_width/16+'px';
      }
-  }
+  },
+  watch: { 
+    '$route' (to, from) { 
+        if(to.path == '/'){ 
+            this.transitionName = 'slide-right'; 
+        }else{ 
+            this.transitionName = 'slide-left'; 
+        } 
+    }
+  }  
 }
 </script>
 
@@ -41,6 +52,19 @@ html,body{
 .mint-header{
   background-color: #e54847;
 }
+.child-view { 
+ transition: all .8s cubic-bezier(.55,0,.1,1); 
+} 
+.slide-left-enter, .slide-right-leave-active { 
+ opacity: 0; 
+ -webkit-transform: translate(50px, 0); 
+ transform: translate(50px, 0); 
+} 
+.slide-left-leave-active, .slide-right-enter { 
+ opacity: 0; 
+ -webkit-transform: translate(-50px, 0); 
+ transform: translate(-50px, 0); 
+} 
 ul,ol{
   list-style: none;
 }
