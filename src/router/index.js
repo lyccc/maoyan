@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import BodyWrapper from '@/components/BodyWrapper'
 import FilmDetails from '@/components/FilmDetails'
 import CinemaDetails from '@/components/CinemaDetails'
+import Login from '@/components/Login'
 Vue.use(Router)
 
 export default new Router({
@@ -22,6 +23,11 @@ export default new Router({
       path: '/CinemaDetails',
       name: 'CinemaDetails',
       component: CinemaDetails
+    },
+    {
+      path: '/Login',
+      name: 'Login',
+      component: Login
     }
   ]
 })

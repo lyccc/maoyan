@@ -22,7 +22,7 @@
             </div>           
         </div>
         <div class="moive-pay">
-            <mt-button type="danger" size="large">立即购票</mt-button>
+            <mt-button type="danger" size="large" @click="login">立即购票</mt-button>
             <div class="movie-description" v-html="filmData.MovieDetailModel.dra"></div>
         </div>
         <div class="movie-comment">
@@ -78,8 +78,8 @@ import star from './../assets/star-full-new.png'
         mounted: function() {
             console.log(this.$route.params.id)
             this.$http({
-                baseURL:'/api',
-	            url:'movie/'+this.$route.params.id+'.json',
+                // baseURL:'/api',
+	            url:'http://m.maoyan.com/movie/'+this.$route.params.id+'.json',
 	            method: 'get',
 	        }).then((res) => {  
                  this.filmData = res.data.data;
@@ -149,6 +149,9 @@ import star from './../assets/star-full-new.png'
                 }else if (d_days >= 30) {
                     return Y + '-' + M + '-' + D + ' ' + H + ':' + m;
                 }
+            },
+            login () {
+                this.$router.push({name:'Login',params: {}})
             }
         }
 

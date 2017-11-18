@@ -8,12 +8,13 @@
         <!-- tab-container -->
         <mt-tab-container v-model="selected">
         <mt-tab-container-item id="1">
-            <FilmList></FilmList>
+            <FilmList></FilmList>                        
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
-            <Cinema></Cinema>
+            <Cinema></Cinema>                        
         </mt-tab-container-item>
         </mt-tab-container>
+        <span class="my-info" @click="login">我的</span>
     </div> 
 </template>
 
@@ -30,19 +31,30 @@ export default {
    components: {
        FilmList,
        Cinema
+   },
+   methods: {
+       login () {
+           this.$router.push({name: 'Login'})
+       }
    }
 }
 </script>
 
 <style scoped>
+.my-info{
+   display: block;
+   width: 2rem;
+   height: 2rem;
+   line-height: 2rem;
+   border-radius: 50%;
+   border:1px solid #ccc;
+   position: fixed;
+   bottom: 2rem;
+   right: .5rem;
+   color: red;
+   font-size: 14px;
+   text-align: center;
+   background-color: #fff; 
+}
 
-.mint-navbar .mint-tab-item.is-selected {
-    border-bottom: 3px solid #e54847;
-    color: #e54847;
-    margin-bottom: -3px;
-}
-.mint-navbar .mint-tab-item {
-    padding: 10px 0;
-    font-size: 15px;
-}
 </style>

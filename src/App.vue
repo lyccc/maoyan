@@ -50,8 +50,18 @@ html,body{
   color: #2c3e50;
 }
 .mint-header{
-  background-color: #e54847;
+  background-color: #e54847!important;
 }
+.mint-navbar .mint-tab-item.is-selected {
+    border-bottom: 3px solid #e54847!important;
+    color: #e54847!important;
+    margin-bottom: -3px!important;
+}
+.mint-navbar .mint-tab-item {
+    padding: 10px 0;
+    font-size: 15px;
+}
+
 .child-view { 
  transition: all .8s cubic-bezier(.55,0,.1,1); 
 } 

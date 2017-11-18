@@ -1,7 +1,7 @@
 <template>
-    <div class="movie-list">
+    <div class="movie-list" v-if="cinemaArr">
         <ul>
-            <li v-for="(item, index) in cinemaBaoAn" :key='item.id' class='movie-content'>
+            <li v-for="(item, index) in cinemaArr" :key='item.id' class='movie-content'>
                 <router-link :to="{name:'CinemaDetails',params:{id:item.id}}">
                    <div class='cinema-name'>{{item.nm}}<span class='sell-price'>{{item.sellPrice}}</span><sub class='sell-wrod'>元起</sub></div>
                    <div class='cinema-address'>{{item.addr}}</div>
@@ -22,30 +22,38 @@ import { Indicator } from 'mint-ui';
         data () {
             return {
                 cinemaData: '',
-                cinemaBaoAn: ''
+                cinemaArr: []
             }
         },
         beforeCreate: function() {
             
         },
         created: function() {
-            // console.log(this.$http);
+             // console.log(this.$http);
             this.$http({
-                baseURL:'/api',
-	            url:'cinemas.json',
+                // baseURL:'/api',
+	            url:'http://m.maoyan.com/cinemas.json',
 	            method: 'get',
 	        }).then((res) => {     
                 if (res.status == 200) {
-                    
+                    // console.log(res)
                     this.cinemaData = res.data.data;
-                    this.cinemaBaoAn = this.cinemaData['宝安区'];
-                    // console.log(this.cinemaBaoAn)
-                    
+                    // this.cinemaBaoAn = res.data.data['宝安区'];
+                    for (let i in res.data.data) {
+                        //  console.log(res.data.data[i])
+                         for (let j = 0; j < res.data.data[i].length; j++) {
+                             this.cinemaArr.push(res.data.data[i][j])
+                         }
+                    }
+                    //  console.log(this.cinemaArr)             
                 }	            
 	        }).catch((res) => {
 	            console.log('Cinema.vue: ', res);
             });
             
+        },
+        mounted: function() {
+           
         }
     }
 </script>

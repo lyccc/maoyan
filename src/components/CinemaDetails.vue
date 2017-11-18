@@ -115,8 +115,8 @@ require('swiper/dist/css/swiper.css')    //注意这里
                         console.log(this.movieName);
 
                         this.$http({
-                            baseURL:'/api',
-                            url:'showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid='+this.cinema.movies[this.index].id,
+                            // baseURL:'/api',
+                            url:'http://m.maoyan.com/showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid='+this.cinema.movies[this.index].id,
                             method: 'get',
                         }).then((res) => {
                             this.movieInfo = res.data.data;//获取电影信息                   
@@ -140,8 +140,8 @@ require('swiper/dist/css/swiper.css')    //注意这里
         created: function() {
             // console.log(this.$route.params.id);
             this.$http({
-                baseURL:'/api',
-	            url:'showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid=',
+                // baseURL:'/api',
+	            url:'http://m.maoyan.com/showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid=',
 	            method: 'get',
 	        }).then((res) => {                   
                this.cinema = res.data.data;
@@ -150,8 +150,8 @@ require('swiper/dist/css/swiper.css')    //注意这里
                console.log(this.cinema); 
                setTimeout(() => {
                    this.$http({
-                            baseURL:'/api',
-                            url:'showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid='+this.cinema.movies[0].id,
+                            // baseURL:'/api',
+                            url:'http://m.maoyan.com/showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid='+this.cinema.movies[0].id,
                             method: 'get',
                         }).then((res) => {
                             this.movieInfo = res.data.data;//获取电影信息                   
