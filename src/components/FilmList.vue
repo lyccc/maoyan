@@ -40,8 +40,8 @@
         created: function() {
             // console.log(this.$http);
             this.$http({
-                // baseURL:'/api',
-	            url:'http://m.maoyan.com/movie/list.json?type=hot&offset=0&limit=1000',
+                baseURL:'/api',
+	            url:'movie/list.json?type=hot&offset=0&limit=1000',
 	            method: 'get',
 	        }).then((res) => {
                 //console.log(res) 

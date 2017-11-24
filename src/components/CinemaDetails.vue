@@ -26,26 +26,25 @@
             <span class="movie-nm">{{movieName}}</span><span class="movie-sc">{{movieScore}}分</span>
         </div>
         <div class="time-line" v-if="movieInfo">
-            <mt-navbar v-model="selected">
-                <mt-tab-item id="1">{{movieInfo.Dates[0].text}}</mt-tab-item>
-                <mt-tab-item id="2">{{movieInfo.Dates[1].text}}</mt-tab-item>
+            <mt-navbar v-model="selected">  
+                <mt-tab-item v-for="(item, index) in movieInfo.Dates" :id="(index+1).toString()" :key="index+1">{{item.text}}</mt-tab-item>
             </mt-navbar>  
             <!-- tab-container -->
             <mt-tab-container v-model="selected">
-            <mt-tab-container-item id="1">
+            <mt-tab-container-item v-for="(DateShow, index) in movieInfo.Dates " :id="(index+1).toString()" :key="index">
                 <div class="showtime-list">
                     <ul>
-                        <li v-for="(item,index) in movieInfo.DateShow[movieInfo.Dates[0].slug]" :key="index">
+                        <li v-for="(item,index) in movieInfo.DateShow[movieInfo.Dates[index].slug]" :key="index">
                             <div>
                                 <strong>{{item.tm}}</strong>
                                 <p class="movie-end">{{item.end}}结束</p>
                             </div>
                             <div class="movie-hall">
                                 <span>{{item.lang}}{{item.tp}}</span>
-                                <p>{{item.th}}</p>
+                                <p class="screens">{{item.th}}</p>
                             </div>
                             <div class="movie-price">
-                                <span>元</span>
+                                <span ref="aa">{{getViewingPrice (item.showId, item.showDate ,this.$ref.aa)}}元</span>
                                 <p>折扣卡首单特惠</p>
                             </div>
                             <div class="movie-seat">
@@ -55,7 +54,7 @@
                     </ul>
                 </div>
             </mt-tab-container-item>
-            <mt-tab-container-item id="2">
+            <!-- <mt-tab-container-item id="2">
                  <div class="showtime-list">
                     <ul>
                         <li v-for="(item,index) in movieInfo.DateShow[movieInfo.Dates[1].slug]" :key="index">
@@ -77,7 +76,7 @@
                         </li>
                     </ul>
                 </div>
-            </mt-tab-container-item>
+            </mt-tab-container-item> -->
             </mt-tab-container>
         </div>
         <Footer></Footer>
@@ -94,10 +93,11 @@ require('swiper/dist/css/swiper.css')    //注意这里
             return {
                 cinema:'',
                 movieInfo:'',
-                index: '',
+                swiperIndex: '',
                 movieName:'',
                 movieScore:'',
                 selected: '1',
+                price: '',
                 swiperOption: {  
                 //是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true  
                 notNextTick: true,  
@@ -109,14 +109,14 @@ require('swiper/dist/css/swiper.css')    //注意这里
                     onSlideChangeEnd: swiper => {  
                         //这个位置放swiper的回调方法  
                         this.page = swiper.realIndex+1;  
-                        this.index = swiper.realIndex; 
-                        this.movieName = this.cinema.movies[this.index].nm;
-                        this.movieScore = this.cinema.movies[this.index].sc;
+                        this.swiperIndex = swiper.realIndex; 
+                        this.movieName = this.cinema.movies[this.swiperIndex].nm;
+                        this.movieScore = this.cinema.movies[this.swiperIndex].sc;
                         console.log(this.movieName);
 
                         this.$http({
-                            // baseURL:'/api',
-                            url:'http://m.maoyan.com/showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid='+this.cinema.movies[this.index].id,
+                            baseURL:'/api',
+                            url:'showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid='+this.cinema.movies[this.swiperIndex].id,
                             method: 'get',
                         }).then((res) => {
                             this.movieInfo = res.data.data;//获取电影信息                   
@@ -140,8 +140,8 @@ require('swiper/dist/css/swiper.css')    //注意这里
         created: function() {
             // console.log(this.$route.params.id);
             this.$http({
-                // baseURL:'/api',
-	            url:'http://m.maoyan.com/showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid=',
+                baseURL:'/api',
+	            url:'showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid=',
 	            method: 'get',
 	        }).then((res) => {                   
                this.cinema = res.data.data;
@@ -150,8 +150,8 @@ require('swiper/dist/css/swiper.css')    //注意这里
                console.log(this.cinema); 
                setTimeout(() => {
                    this.$http({
-                            // baseURL:'/api',
-                            url:'http://m.maoyan.com/showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid='+this.cinema.movies[0].id,
+                            baseURL:'/api',
+                            url:'showtime/wrap.json?cinemaid='+this.$route.params.id+'&movieid='+this.cinema.movies[0].id,
                             method: 'get',
                         }).then((res) => {
                             this.movieInfo = res.data.data;//获取电影信息                   
@@ -169,7 +169,21 @@ require('swiper/dist/css/swiper.css')    //注意这里
           
         },
         methods: {
-
+                getViewingPrice (showId, showDate, that) {
+                    // console.log('http://m.maoyan.com/show/seats?showId='+showId+'&showDate='+showDate)
+                   console.log(that)
+                //     this.$http({
+                //     // baseURL:'/api',
+                //     url:'http://m.maoyan.com/show/seats?showId='+showId+'&showDate='+showDate,
+                //     method:'get'
+                // }).then((res) => {                                 
+                //         console.log(res)
+                //         // this.price =  res.data.showInfo.price
+                //         // console.log(me)         
+                // }).catch((res) => {
+                //     console.log('CinemaDetails.vue: ', res);
+                // });
+            }
         }
     }
 </script>
@@ -234,8 +248,11 @@ require('swiper/dist/css/swiper.css')    //注意这里
     margin-top: 3px;
     div{
         p{
-            margin-top: .25rem;
+            margin-top: .25rem;           
         }
+    }
+    .screens{
+        max-width: 3rem;
     }
     li{
        display: flex;

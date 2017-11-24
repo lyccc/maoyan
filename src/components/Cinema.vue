@@ -31,8 +31,8 @@ import { Indicator } from 'mint-ui';
         created: function() {
              // console.log(this.$http);
             this.$http({
-                // baseURL:'/api',
-	            url:'http://m.maoyan.com/cinemas.json',
+                baseURL:'/api',
+	            url:'cinemas.json',
 	            method: 'get',
 	        }).then((res) => {     
                 if (res.status == 200) {
