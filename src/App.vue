@@ -63,17 +63,17 @@ html,body{
 }
 
 .child-view { 
- transition: all .8s cubic-bezier(.55,0,.1,1); 
+ transition: all .8s ease; 
 } 
 .slide-left-enter, .slide-right-leave-active { 
  opacity: 0; 
- -webkit-transform: translate(50px, 0); 
- transform: translate(50px, 0); 
+ -webkit-transform: translate(100%, 0); 
+ transform: translate(100%, 0); 
 } 
 .slide-left-leave-active, .slide-right-enter { 
  opacity: 0; 
- -webkit-transform: translate(-50px, 0); 
- transform: translate(-50px, 0); 
+ -webkit-transform: translate(-100%, 0); 
+ transform: translate(-100%, 0); 
 } 
 ul,ol{
   list-style: none;

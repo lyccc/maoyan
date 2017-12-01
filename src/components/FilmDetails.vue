@@ -78,8 +78,8 @@ import star from './../assets/star-full-new.png'
         mounted: function() {
             console.log(this.$route.params.id)
             this.$http({
-                // baseURL:'/api',
-	            url:'http://m.maoyan.com/movie/'+this.$route.params.id+'.json',
+                baseURL:'/api',
+	            url:'movie/'+this.$route.params.id+'.json',
 	            method: 'get',
 	        }).then((res) => {  
                  this.filmData = res.data.data;

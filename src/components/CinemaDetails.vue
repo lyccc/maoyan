@@ -44,7 +44,7 @@
                                 <p class="screens">{{item.th}}</p>
                             </div>
                             <div class="movie-price">
-                                <span ref="aa">{{getViewingPrice (item.showId, item.showDate ,this.$ref.aa)}}元</span>
+                                <span ref="aaa">{{getViewingPrice (item.showId, item.showDate, index)}}元</span>
                                 <p>折扣卡首单特惠</p>
                             </div>
                             <div class="movie-seat">
@@ -166,20 +166,26 @@ require('swiper/dist/css/swiper.css')    //注意这里
             });
         },
         mounted: function () {
-          
+   
         },
         methods: {
-                getViewingPrice (showId, showDate, that) {
-                    // console.log('http://m.maoyan.com/show/seats?showId='+showId+'&showDate='+showDate)
-                   console.log(that)
+                getViewingPrice (showId, showDate, index) {
+                    // console.log('http://m.maoyan.com/show/seats?showId='+showId+'&showDate='+showDate)     
                 //     this.$http({
-                //     // baseURL:'/api',
-                //     url:'http://m.maoyan.com/show/seats?showId='+showId+'&showDate='+showDate,
+                //     baseURL:'/api',
+                //     url:'show/seats?showId='+showId+'&showDate='+showDate,
                 //     method:'get'
                 // }).then((res) => {                                 
                 //         console.log(res)
+                //         console.log(index)
                 //         // this.price =  res.data.showInfo.price
-                //         // console.log(me)         
+                //         // console.log(me)
+                //         if (res.data != '') {
+                //             setTimeout(()=>{
+                //                 this.$refs.aaa[index].innerHTML = res.data.showInfo.price + '元'
+                //             },1000)
+                //         }                                   
+                       
                 // }).catch((res) => {
                 //     console.log('CinemaDetails.vue: ', res);
                 // });
