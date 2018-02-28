@@ -1,9 +1,9 @@
 <template>
     <div class="movie-details-wrapper" v-if="filmData">
         <mt-header title="影片详情">
-            <router-link to="/" slot="left">
-                <mt-button icon="back"></mt-button>
-            </router-link>
+            <!-- <router-link to="/" slot="left"> -->
+                <mt-button icon="back" slot="left" @click="back"></mt-button>
+            <!-- </router-link> -->
         </mt-header>
         <div class="movie-fliter">
             <div class="moive-img">
@@ -152,6 +152,9 @@ import star from './../assets/star-full-new.png'
             },
             login () {
                 this.$router.push({name:'Login',params: {}})
+            },
+            back () {
+                this.$router.back()                
             }
         }
 
@@ -160,7 +163,17 @@ import star from './../assets/star-full-new.png'
 
 <style lang="scss" scoped>
 .movie-details-wrapper{
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     background-color: #f4f4f4;
+    // overflow-y: scroll;
+    // overflow-x: hidden;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 .movie-fliter{
     padding: .5rem;

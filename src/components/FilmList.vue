@@ -1,8 +1,8 @@
 <template>
     <div class="movie-list" v-if="filmData">
         <ul>
-            <li v-for='(item, index) in moviesArr' :key='item.id' class='movie-content'>
-                <router-link :to="{name:'FilmDetails',params:{id:item.id}}">
+            <li v-for='(item, index) in moviesArr' :key='item.id' class='movie-content' @click="goDetails(item.id)">
+                <!-- <router-link :to="{name:'FilmDetails',params:{id:item.id}}"> -->
                     <div class='movie-cover'>
                         <img :src='item.img' alt="图片">
                     </div>
@@ -17,9 +17,9 @@
                     </div> 
                     <span class='movie-rating'>{{item.sc}}分</span>
                     <a href="####" class='moive-buy'>购票</a>
-                </router-link>                                 
+                <!-- </router-link>                                  -->
             </li>
-        </ul>
+        </ul>                      
     </div>
 </template>
 
@@ -55,6 +55,12 @@
 	            console.log('FilmList.vue: ', res);
             });
             
+        },
+        methods: {
+            goDetails(id) {
+                console.log(id)
+                this.$emit('goDetails','FilmDetails',id)
+            }
         }
     }
 </script>

@@ -12,18 +12,34 @@ export default new Router({
     {
       path: '/',
       name: 'BodyWrapper',
-      component: BodyWrapper
+      component: BodyWrapper,
+      children: [
+        {
+          // 当 /user/:id/profile 匹配成功，
+          // UserProfile 会被渲染在 User 的 <router-view> 中
+          path: 'Filmdetails',
+          name: 'FilmDetails',
+          component: FilmDetails
+        },
+        {
+          // 当 /user/:id/profile 匹配成功，
+          // UserProfile 会被渲染在 User 的 <router-view> 中
+          path: 'CinemaDetails',
+          name: 'CinemaDetails',
+          component: CinemaDetails
+        }
+      ]
     },
-    {
-      path: '/Filmdetails',
-      name: 'FilmDetails',
-      component: FilmDetails
-    },
-    {
-      path: '/CinemaDetails',
-      name: 'CinemaDetails',
-      component: CinemaDetails
-    },
+    // {
+    //   path: '/Filmdetails',
+    //   name: 'FilmDetails',
+    //   component: FilmDetails
+    // },
+    // {
+    //   path: '/CinemaDetails',
+    //   name: 'CinemaDetails',
+    //   component: CinemaDetails
+    // },
     {
       path: '/Login',
       name: 'Login',

@@ -1,15 +1,15 @@
 <template>
     <div class="movie-list" v-if="cinemaArr">
         <ul>
-            <li v-for="(item, index) in cinemaArr" :key='item.id' class='movie-content'>
-                <router-link :to="{name:'CinemaDetails',params:{id:item.id}}">
+            <li v-for="(item, index) in cinemaArr" :key='item.id' class='movie-content' @click="goDetails(item.id)">
+                <!-- <router-link :to="{name:'CinemaDetails',params:{id:item.id}}"> -->
                    <div class='cinema-name'>{{item.nm}}<span class='sell-price'>{{item.sellPrice}}</span><sub class='sell-wrod'>元起</sub></div>
                    <div class='cinema-address'>{{item.addr}}</div>
                    <div class='tag-list'>
                        <div class='seat'>座</div>
                        <div class='imax'>IMAX厅</div>
                    </div>
-                </router-link>
+                <!-- </router-link> -->
             </li>
         </ul>
     </div>
@@ -54,6 +54,12 @@ import { Indicator } from 'mint-ui';
         },
         mounted: function() {
            
+        },
+        methods: {
+            goDetails(id) {
+                console.log(id)
+                this.$emit('goDetails','CinemaDetails',id)
+            }
         }
     }
 </script>

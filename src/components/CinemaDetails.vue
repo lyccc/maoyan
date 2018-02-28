@@ -1,9 +1,9 @@
 <template>
-    <div v-if="cinema">
+    <div v-if="cinema" class="movie-details-wrapper">
         <mt-header title="影院详情">
-            <router-link to="/" slot="left">
-                <mt-button icon="back"></mt-button>
-            </router-link>
+            <!-- <router-link to="/" slot="left"> -->
+                <mt-button icon="back" slot="left" @click="back"></mt-button>
+            <!-- </router-link> -->
         </mt-header>
         <div class="cinema-info">
             <div>
@@ -170,7 +170,7 @@ require('swiper/dist/css/swiper.css')    //注意这里
         },
         methods: {
                 getViewingPrice (showId, showDate, index) {
-                    // console.log('http://m.maoyan.com/show/seats?showId='+showId+'&showDate='+showDate)     
+                // console.log('http://m.maoyan.com/show/seats?showId='+showId+'&showDate='+showDate)     
                 //     this.$http({
                 //     baseURL:'/api',
                 //     url:'show/seats?showId='+showId+'&showDate='+showDate,
@@ -189,12 +189,26 @@ require('swiper/dist/css/swiper.css')    //注意这里
                 // }).catch((res) => {
                 //     console.log('CinemaDetails.vue: ', res);
                 // });
+            },
+            back () {
+                this.$router.back()
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+.movie-details-wrapper{
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #f4f4f4;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
 .cinema-info{
     display: flex;
     justify-content: space-between;

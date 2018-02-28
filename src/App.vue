@@ -1,7 +1,9 @@
 <template>
   <div id="app" v-cloak>
-   <transition :name="transitionName">       
-        <router-view class="child-view"/>
+   <transition :name="transitionName">
+       <!-- <keep-alive> -->
+           <router-view class="child-view"/>           
+       <!-- </keep-alive>        -->
    </transition> 
   </div>
 </template>
@@ -72,8 +74,8 @@ html,body{
 } 
 .slide-left-leave-active, .slide-right-enter { 
  opacity: 0; 
- -webkit-transform: translate(-100%, 0); 
- transform: translate(-100%, 0); 
+ -webkit-transform: translate(100%, 0); 
+ transform: translate(100%, 0); 
 } 
 ul,ol{
   list-style: none;
